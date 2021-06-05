@@ -1,6 +1,7 @@
 const server = require('./API/server');
 const sequelize = require('./API/database/db');
 
+
 const PORT = process.env.PORT || 3300;
 
 server.listen(PORT, () => {
@@ -17,3 +18,6 @@ server.listen(PORT, () => {
 server.get('/', (req, res) => {
     res.send('Hello world');
 });
+
+server.use('/api/user', require('./API/routes/user') );
+server.use('/api/post', require('./API/routes/post') );
