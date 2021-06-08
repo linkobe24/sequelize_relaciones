@@ -26,7 +26,7 @@ server.listen(PORT, () => {
     });
 
     //sync tables
-    sequelize.sync({force: false}).then(() =>{
+    sequelize.sync({force: true}).then(() =>{
         console.log("Tables created");
     }).catch(err => {
         console.error(`An error has ocurred while synchronizing: ${err}`);

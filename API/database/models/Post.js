@@ -13,7 +13,8 @@ Post.init({
     body: DataTypes.TEXT
 },{
     sequelize, //connection instance
-    modelName: 'post'
+    modelName: 'post',
+    timestamps: false
 });
 
 module.exports = Post;
