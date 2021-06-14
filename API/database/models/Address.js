@@ -13,6 +13,7 @@ Address.init({
 },{
     sequelize, //connection instance
     modelName: 'address',
+    freezeTableName: true,
     timestamps: false
 });
 

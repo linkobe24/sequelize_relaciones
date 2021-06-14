@@ -1,6 +1,7 @@
 const { Router } = require('express');
 const router = Router();
 const Post = require('../database/models/Post');
+const User = require('../database/models/User');
 const { route } = require('../server');
 
 
@@ -17,7 +18,14 @@ router.post('/', (req,res) => {
 
 //READ
 router.get('/', (req, res) => {
-    Post.findAll().then( post => {
+    Post.findAll({
+        include: {
+            model: User,
+            as: "autor",
+            attributes: ["name"]
+        },
+        attributes: ['title', 'body'] 
+    }).then( post => {
         res.json(post);
     });
 });
