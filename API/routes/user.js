@@ -1,4 +1,5 @@
 const { Router } = require('express');
+const Address = require('../database/models/Address');
 const router = Router();
 const User = require('../database/models/User');
 
@@ -12,6 +13,19 @@ router.post('/', (req, res) => {
         res.json(user)
     }).catch(err => {
         res.json(err)  
+    })
+});
+
+router.get('/', (req, res) => {
+    User.findAll({
+        include: {
+            model: Address,
+            as: "domicilio",
+            attributes: ['street']
+        },
+        attributes: ['name', 'age'] //only show this attributes
+    }).then(users => {
+        res.json(users);
     })
 });
 

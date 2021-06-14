@@ -1,6 +1,6 @@
 const server = require('./API/server');
 const sequelize = require('./API/database/db');
-
+require('./API/database/associations');
 
 const PORT = process.env.PORT || 3300;
 
@@ -11,6 +11,9 @@ server.get('/', (req, res) => {
 //routes
 server.use('/api/user', require('./API/routes/user') );
 server.use('/api/post', require('./API/routes/post') );
+server.use('/api/address', require('./API/routes/address') );
+
+
 
 
 
@@ -26,7 +29,7 @@ server.listen(PORT, () => {
     });
 
     //sync tables
-    sequelize.sync({force: true}).then(() =>{
+    sequelize.sync({force: false}).then(() =>{
         console.log("Tables created");
     }).catch(err => {
         console.error(`An error has ocurred while synchronizing: ${err}`);
