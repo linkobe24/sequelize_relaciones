@@ -2,6 +2,7 @@ const sequelize = require('./API/database/db');
 const Post = require('./API/database/models/Post');
 const User = require('./API/database/models/User');
 const Address = require('./API/database/models/Address');
+const Band = require('./API/database/models/Band');
 require('./API/database/associations');
 
 //Users
@@ -63,3 +64,40 @@ sequelize.sync({force: true}).then(()=>{
 }).then(() => {
     console.log("posts filled")
 });
+
+//create a band with users, users are added to the table users in the db
+sequelize.sync({force: true}).then( async () => {
+    let band1 = await Band.create({
+        name: "The beatles",
+        type: "Rock",
+        users: [
+            {name: "John", age: 27, email: "john@hotmail.com"},
+            {name: "Paul", age: 27, email: "paul@hotmail.com"},
+        ]
+    }, {
+        include: "users"
+    });
+
+    //another way to create band with users using addUsers
+    let user1 = await User.create({name: "Kurt", age: 27, email: "kurt@hotmail.com"});
+    let user2 = await User.create({name: "Dave", age: 27, email: "dave@hotmail.com"});
+
+    let band2 = await Band.create({
+        name: "Nirvana",
+        type: "Grunge"
+    });
+
+    //band2.addUsers([user1, user2]);
+    band2.addUser(user1);       //add users separately
+    band2.addUser(user2);
+
+    //set a band to a new user
+    let user3 = await User.create({name: "Chester", age: 40, email: "chester@hotmail.com"});
+    user3.setBands([band1, band2])
+
+
+}).then(() => {
+    console.log("bands created");
+})
+
+

@@ -1,8 +1,10 @@
 const { Router } = require('express');
 const Address = require('../database/models/Address');
 const Post = require('../database/models/Post');
-const router = Router();
 const User = require('../database/models/User');
+const Band = require('../database/models/Band');
+const router = Router();
+
 
 // //CREATE  /api/user
 // router.post('/', (req, res) => {
@@ -73,6 +75,15 @@ router.get('/:id/publicaciones', (req, res) => {
     User.findByPk(req.params.id).then( user => {
         user.getPublicaciones().then( publicaciones => {
             res.json(publicaciones);
+        });
+    });
+});
+
+//show bandas /api/user/:id/bandas
+router.get('/:id/bandas', (req, res) => {
+    User.findByPk(req.params.id).then( user => {
+        user.getBands({ attributes: ['name', 'type']}).then( bands => {
+            res.json(bands);
         });
     });
 });
